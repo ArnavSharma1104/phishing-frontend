@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/email-sim" element={<EmailSimulator />} />
         <Route path="/fake-login-old" element={<FakeLogin_old />} />
-        <Route path="/fake-login/:email" element={<FakeLogin />} />
+        <Route path="/fake-login" element={<FakeLogin />} />
 
 
         {/* Protected Routes */}
