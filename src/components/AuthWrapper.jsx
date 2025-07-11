@@ -1,4 +1,3 @@
-// src/components/AuthWrapper.jsx
 import React, { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
@@ -9,21 +8,20 @@ const AuthWrapper = ({ children }) => {
 
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
-
-    // Delay just a little to ensure DOM/localStorage fully available
-    const delay = setTimeout(() => {
+    console.log("📦 AuthWrapper: userEmail =", email);
+    if (email) {
       setUserEmail(email);
-      setLoading(false);
-    }, 100); // delay helps especially on new tab loads
-
-    return () => clearTimeout(delay);
+    }
+    setLoading(false);
   }, []);
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
-
   return (
-    <AuthContext.Provider value={{ userEmail }}>
-      {children}
+    <AuthContext.Provider value={{ userEmail, setUserEmail, loading }}>
+      {loading ? (
+        <div className="text-center mt-10">Loading auth...</div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

@@ -3,17 +3,19 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthWrapper";
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
-  const { userEmail } = useContext(AuthContext);
+  const { userEmail, loading } = useContext(AuthContext);
 
-  if (userEmail === null) {
-    return <div>Loading...</div>;
+  console.log("🔒 ProtectedRoute:", { userEmail, loading });
+
+  if (loading) {
+    return <div className="text-center mt-10">Loading Protected Route...</div>;
   }
 
   if (!userEmail) {
     return <Navigate to="/login" replace />;
   }
 
-  if (adminOnly && userEmail !== "arnav@gmail.com") {
+  if (adminOnly && userEmail.toLowerCase() !== "arnav@gmail.com") {
     return <Navigate to="/" replace />;
   }
 
